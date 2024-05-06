@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <title><%=item.name%></title>
+    <link rel="icon" type="image/x-icon" href="https://iili.io/J3O5HyQ.png">
+    <script>
+      const search = window.location.search.split("=")[1];
+      const token = localStorage.getItem("token");
+      if(search != token){
+        console.log("reload");
+        window.location.href = "/";
+      }
+    </script>
+    <script src="https://content.jwplatform.com/libraries/SAHhwvZq.js"></script>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body></body>
+    <div class="player">
+        <div class="playerContainer side-panel">
+            <div id="jwplayerDiv"></div>
+        </div>
+
+        <div class="chatPage side-panel">
+            <div class="header">
+                <h1><span>I</span><span>N</span><span>D</span><span>I</span><span>A</span></h1>
+            </div>
+            
+            <div class="chat"></div>
+            <div class="sender">
+                <input type="text" placeholder="Enter Message" id="inputText">
+                <img src="images/send.png" width="20px" id="sendButton">
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var playerInstance = jwplayer("jwplayerDiv").setup({
+            file: '<%= item.url %>',
+            position: 'bottom',
+            // stretching: "fill",
+            autostart: true,
+            mute: true,
+            type: '<%= item.type %>',            
+        });
+    </script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/app.js"></script>
+</body>
+</html>

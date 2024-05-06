@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LiveChat</title>
+    <script src="https://content.jwplatform.com/libraries/SAHhwvZq.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <div class="namePage">
+        <h1>Name</h1>
+        <input type="text" name="" placeholder="Enter Name" id="nameInput">
+        <img src="images/send.png" width="20px" id="setNameButton">
+    </div>
+
+    <div class="player">
+        <div class="playerContainer side-panel">
+            <div id="jwplayerDiv"></div>
+        </div>
+
+        <div class="chatPage side-panel">
+            <div class="header">
+                <h1>Live Chat</h1>
+            </div>
+    
+            <div class="chat"></div>
+            <div class="sender">
+                <input type="text" placeholder="Enter Message" id="inputText">
+                <img src="images/send.png" width="20px" id="sendButton">
+            </div>
+        </div>
+    </div>
+    
+    <script type="text/javascript">
+        jwplayer("jwplayerDiv").setup({
+          file:"https://sample.vodobox.net/skate_phantom_flex_4k/skate_phantom_flex_4k.m3u8",                
+          position:'bottom',
+          autostart:'true',
+          mute:'true',
+          type:"hls",
+      });
+
+    </script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

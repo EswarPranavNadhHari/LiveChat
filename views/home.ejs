@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <meta name="referrer" content="no-referrer">   -->
+    <title>Stream</title>
+    <link rel="icon" type="image/x-icon" href="https://iili.io/J3O5HyQ.png">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #272829;
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        h1, h3, a{
+            color: #D8D9DA;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .image-block {
+            text-align: center;
+            margin: 20px 10px; 
+        }
+
+        .image-block img {
+            width: 100%;
+            max-width: 100%;
+            border-radius: 10px;
+            transition: transform 0.3s;
+        }
+
+        .image-block img:hover {
+            transform: scale(1.03);
+        }
+
+        .image-block a {
+            display: block;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .dark-mode-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        #nav{
+          display: flex;
+          justify-content: space-between;
+          background-color: black;
+          padding: 0 30px;
+          border-radius: 10px;
+          /* text-align: center; */
+        }
+
+        #sign-bar{
+          display: flex;
+          column-gap: 40px;
+          justify-content: space-between;
+        } 
+
+        #sign-bar li, #logout-bar li{
+          list-style-type: none;
+          align-self: center;
+        }
+
+        #signin, #signup, #logout{
+          cursor: pointer;
+          text-decoration: none;
+          padding: 10px 20px;
+          border-radius: 5px;
+        }
+
+        #signin:hover, #signup:hover, #logout:hover, #hamburger:hover {
+          background-color: #3d3b3b;
+        }
+
+        #hamburger {
+          display: none;
+          align-items: center;
+          width: 35px;
+          height: 35px;
+          margin: auto 0;
+          border-radius: 5px;
+        }
+
+
+
+        @media (min-width: 768px) {
+            .image-block {
+                width: 48%;
+                display: inline-block;
+                margin: 20px 5px;
+            }
+
+
+        }
+        @media (max-width: 768px) {
+
+            #sign-bar{
+              position: absolute;
+              top: -100%;
+              flex-direction: column;
+              width: calc(100% - 40px);
+              left: 20px;
+              background-color: black;
+              border-radius : 10px;
+              padding: 20px 0;
+              opacity: 0;
+              /* transform: translateY(-100%); */
+              transition: top 0.5s ease, opacity 0.5s ease 1s;
+
+            }
+
+            .sign-bar--open {
+              /* display: flex !important; */
+              /* transform: translateY(0); */
+              top: 65px !important;
+              opacity: 1 !important;
+              transition: opacity 0.1s ease, top 0.8s ease 1s;
+            }
+
+            h1{
+              font-size: 150%;
+              position: relative;
+              align-self: center;
+            }
+
+            #hamburger{
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+
+            }
+
+            .bar{
+              width: 25px;
+              height: 2px;
+              margin: 2px;
+              background-color: white;
+              transition: all 0.5s ease-in-out
+            }
+
+            .hamburger--open .bar:nth-child(1){
+              transform: translateY(6px) rotate(45deg);
+            }
+
+            .hamburger--open .bar:nth-child(2){
+              opacity: 0;
+            }
+
+            .hamburger--open .bar:nth-child(3){
+              transform: translateY(-6px) rotate(-45deg);
+            }
+
+
+
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div id="nav">
+          <h1>Hello GUEST :)</h1>  
+          <div id="sign-bar">
+            <li >
+              <h3 class="navLinks"><a id="signup" href="/signup.html">Signup</a></h3>
+            </li>
+            <li>
+              <h3 class="navLinks"><a id="signin" href="/signin.html">Signin</a></h3>
+            </li>
+          </div>
+          <div id="logout-bar">
+            <li>
+              <h3 class="navLinks" id="logout" onclick="signout()" >Logout</h3>
+            </li>
+          </div>
+          <div id="hamburger">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+          </div>
+
+        </div>
+
+        <% for(let i of keys) {%>
+          <div class="image-block">
+            <img src="<%= i.img %>" onclick="channel('<%=i.name%>')" alt="<%= i.name %>">
+          </div>
+        <% } %> 
+    </div>
+    <script>
+
+      const logoutBar = document.querySelector("#logout-bar");
+      const signBar = document.querySelector("#sign-bar");
+      const hamBurger = document.querySelector("#hamburger");
+      const h1 = document.querySelector("h1");
+
+      logoutBar.style.display = "none";
+      let token = localStorage.getItem("token");
+
+      if(token){
+        let data = JSON.parse(atob(token.split(".")[1]));
+        h1.innerHTML = `Hello ${data.username.split(" ")[0]} :)`;
+        signBar.style.display = "none";
+        hamBurger.style.display = "none";
+        logoutBar.style.display = "flex";
+      }
+
+      hamBurger.addEventListener("click", () => {
+          signBar.classList.toggle("sign-bar--open");
+          hamBurger.classList.toggle("hamburger--open")
+      });
+
+      function signout() {
+        localStorage.removeItem("token");
+        location.reload();
+      }
+
+      async function channel(name) {
+        window.location.href = `/${name}?token=${token}`
+      }
+    </script>
+</body>
+</html>
