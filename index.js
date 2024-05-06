@@ -110,7 +110,7 @@ async function telegram(name, jl, channel = "") {
     name = "someone";
   }
   await fetch(
-    `https://api.telegram.org/bot${BOT_API}/sendMessage?chat_id=1352300923&text=${name} ${jl} ${channel.slice(
+    `https://api.telegram.org/bot${api}/sendMessage?chat_id=${userid}&text=${name} ${jl} ${channel.slice(
       1,
     )}`,
   );
