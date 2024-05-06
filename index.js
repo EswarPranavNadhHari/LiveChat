@@ -109,7 +109,11 @@ async function telegram(name, jl, channel = "") {
   if (!name) {
     name = "someone";
   }
-  
+  await fetch(
+    `https://api.telegram.org/bot${BOT_API}/sendMessage?chat_id=1352300923&text=${name} ${jl} ${channel.slice(
+      1,
+    )}`,
+  );
   return 0;
 }
 
